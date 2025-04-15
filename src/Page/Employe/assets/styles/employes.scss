@@ -1,0 +1,29 @@
+.RowsPerPage {
+
+	&-next, &-preview {
+		color: whitesmoke;
+		border: solid #000 1px;
+		padding: .5rem;
+	}
+	
+	p {
+		margin: 0 .5rem;
+		font-weight: 600;
+	}
+	
+	&-valueLabel {
+		padding: .5rem;
+		align-self: center;
+		margin: 0 0 1.8rem 0;
+		cursor: pointer;
+		
+		select {
+			margin: 0;
+			padding: .5rem;
+			cursor: pointer;
+
+		}
+
+	}
+
+}
