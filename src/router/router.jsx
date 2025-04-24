@@ -11,6 +11,8 @@ export default function Router() {
 				<Route path='/' element={<Layout />} />
 					<Route index element={<Home />} />
 					<Route path='/employees' element={<Employees />} />
+					<Route path='404'/>
+					<Route path='*'/> //Qui me renvoit vers la home en cas de page hors Routeur
 				<Route />
 			</Routes>
 		</BrowserRouter>

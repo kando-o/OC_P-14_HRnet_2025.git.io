@@ -268,23 +268,17 @@ export default function Home() {
 			state: null,
 			zipCode: null,
 		}
-		
 	})
-	
 	
 	const saveEmployee = () => {		
 		setmodale(true);
-		console.log(modale);
-		
-		
 		const employees = JSON.parse(localStorage.getItem("employees"))
 		if (!employees) {
 			localStorage.setItem("employees", JSON.stringify([form]))
 		} else {
-			// Si la valeur du champ et égale à ce qui existe deja fuck off
+			// Si la valeur du champ et égale à ce qui existe déjà alors Création de newEmploye avec ...employees et la nouvelle valeur du form rajouter au localStorag
 			const newEmploye = [...employees, {...form}] 
 			localStorage.setItem("employees", JSON.stringify(newEmploye))
-			console.log(newEmploye);
 		}
 	}
 
@@ -295,6 +289,7 @@ export default function Home() {
 	const [modale, setmodale] = useState(false)
 
 	const handleModalChange = (value) => {
+		//value qui vient de la modal *composant enfant*
 		setmodale(value)
 		console.log("état de la modale depuis la home", value);
 	}
@@ -311,9 +306,10 @@ export default function Home() {
 						<h2>Create Employee</h2>
 						<form action="#" id="create-employee">
 							<label htmlFor="first-name">First Name</label>
-							<input 
-								type="text" 
-								id="first-name" 
+							<input
+								type="text"
+								id="first-name"
+								required
 								onChange={(e) =>
 									(
 										setForm((form) => ({

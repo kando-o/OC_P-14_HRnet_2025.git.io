@@ -20,7 +20,6 @@ export default function Employees() {
 	]
 	
 	const tabeEmployees = parseEmployees.map(employee => {
-		// console.log(employee.firstName);
 
 		const tabemployee = [
 			employee.firstName,
@@ -37,7 +36,6 @@ export default function Employees() {
 		return tabemployee
 	})
 
-	console.log(tabeEmployees);
 	const options = {
 		selectableRows: "none",
 		download: false, // 🔴 désactive le bouton "Download"
@@ -119,5 +117,3 @@ export default function Employees() {
 		</div>
 	)
 }
-
-

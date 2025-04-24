@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import "../assets/style//modal.css"
+import { NavLink } from 'react-router'
 
 export default function Modal({isOpen, onStateChange}) {
 	
@@ -9,16 +10,14 @@ export default function Modal({isOpen, onStateChange}) {
 		setOpen(isOpen)
 	}, [isOpen] )
 
-	const handleClick = () => {
+	const handleClickCloseModal = () => {
 		setOpen(false)
 	}
 
 	// 🔔 Notifie le parent à chaque changement de `open`
   useEffect(() => {
 		if (typeof onStateChange === "function") {
-			onStateChange(open)
-			console.log(open);
-			
+			onStateChange(open)			
 		}
 	},[open])
 
@@ -30,13 +29,13 @@ export default function Modal({isOpen, onStateChange}) {
 				<div className='modal'>
 					<div className='modal-content'>
 						<p className='modal-text'>
-							<span className='modal-btnClose' onClick={handleClick}>x</span>
+							<span className='modal-btnClose' onClick={handleClickCloseModal}>x</span>
 							Employee Created!
 						</p>
+						<NavLink to="/employees">View Current Employees</NavLink>
 					</div>
 				</div>
 			}
 		</>
-		
 	)
 }
