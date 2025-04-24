@@ -1,0 +1,34 @@
+.modal {
+  position: fixed;
+  border: solid red 1px;
+  background: rgba(240, 240, 240, 0.85);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  backdrop-filter: blur(4px); /* optionnel : effet flou */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.modal-content {
+  background-color: #fff;
+  border-radius: 1rem;
+  max-width: 300px;
+}
+.modal-text {
+  position: relative;
+  padding: 1rem;
+}
+.modal-btnClose {
+  color: whitesmoke;
+  background-color: #000;
+  position: absolute;
+  height: 40px;
+  width: 40px;
+  top: -15px;
+  right: -15px;
+  border-radius: 50%;
+  cursor: pointer;
+}/*# sourceMappingURL=modal.css.map */
