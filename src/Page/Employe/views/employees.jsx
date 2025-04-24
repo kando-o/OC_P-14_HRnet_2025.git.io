@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { NavLink } from 'react-router'
 import MUIDataTable from "mui-datatables";
 import '../assets/styles/employes.css'

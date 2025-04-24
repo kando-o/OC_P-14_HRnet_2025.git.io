@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import "../assets/styles/home.css"
 import { NavLink } from 'react-router'
+import Modal from '../../../Component/modal/view/modal'
 
 export default function Home() {
 		const states = [ 
@@ -241,8 +242,7 @@ export default function Home() {
 		"abbreviation": "WY"
 	}
 	]
-	const [modale, setmodale] = useState(false)
-
+	
 	const departements = [
 		{name: "Marketing"},
 		{name: "Engineering"},
@@ -250,7 +250,7 @@ export default function Home() {
 		{name: "Human Resources"},
 		{name: "Legal"},
 	]
-
+	
 	const [form, setForm] = useState( () => {		
 		const employees = localStorage.getItem('employees');
 		// au montage du composant si saveForm existe le parse sinon mettre une valeur vide
@@ -268,11 +268,14 @@ export default function Home() {
 			state: null,
 			zipCode: null,
 		}
-	
+		
 	})
-
+	
+	
 	const saveEmployee = () => {		
 		setmodale(true);
+		console.log(modale);
+		
 		
 		const employees = JSON.parse(localStorage.getItem("employees"))
 		if (!employees) {
@@ -289,157 +292,165 @@ export default function Home() {
 	useEffect(() => {
 	}, [form]);
 
-  return (
-		<div className='home'>
-			<div className="title">
-				<h1>HRnet 2</h1>
-			</div>
+	const [modale, setmodale] = useState(false)
 
-			<div className="container">
-				<NavLink to="/employees">View Current Employees</NavLink>
-					<h2>Create Employee</h2>
-					<form action="#" id="create-employee">
-						<label htmlFor="first-name">First Name</label>
-						<input 
-							type="text" 
-							id="first-name" 
-							onChange={(e) =>
-								(
+	const handleModalChange = (value) => {
+		setmodale(value)
+		console.log("état de la modale depuis la home", value);
+	}
+
+  return (
+		<>
+			<div className='home'>
+				<div className="title">
+					<h1>HRnet 2</h1>
+				</div>
+
+				<div className="container">
+					<NavLink to="/employees">View Current Employees</NavLink>
+						<h2>Create Employee</h2>
+						<form action="#" id="create-employee">
+							<label htmlFor="first-name">First Name</label>
+							<input 
+								type="text" 
+								id="first-name" 
+								onChange={(e) =>
+									(
+										setForm((form) => ({
+											...form,
+											firstName : e.target.value
+										})
+									))
+								}
+							/>
+
+							<label htmlFor="last-name">Last Name</label>
+							<input 
+								type="text" 
+								id="last-name" 
+								onChange={(e) => (
 									setForm((form) => ({
 										...form,
-										firstName : e.target.value
-									})
-								))
-							}
-						/>
+										lastName : e.target.value
+									}
+									))
+								)}
+							/>
 
-						<label htmlFor="last-name">Last Name</label>
-						<input 
-							type="text" 
-							id="last-name" 
-							onChange={(e) => (
-								setForm((form) => ({
-									...form,
-									lastName : e.target.value
-								}
-								))
-							)}
-						/>
-
-						<label htmlFor="date-of-birth">Date of Birth</label>
-						<input 
-							id="date-of-birth" 
-							type="date" 
-							onChange={(e) => (
-								setForm((form) => ({
-									...form,
-									dateOfBirth : e.target.value
-								}))
-							)}
-						/>
-
-						<label htmlFor="start-date">Start Date</label>
-						<input 
-							id="start-date"
-						 	type="date"
-							onChange={e => (
-								setForm(form => ({
-									...form,
-									startDate : e.target.value
-								}))
-							)}
-						/>
-
-						<br />
-						<br />
-
-						<fieldset className="address">
-							<legend>Address</legend>
-
-							<label htmlFor="street">Street</label>
+							<label htmlFor="date-of-birth">Date of Birth</label>
 							<input 
-								id="street" 
-								type="text"
-								onChange={e => (
-									setForm(form => ({
+								id="date-of-birth" 
+								type="date" 
+								onChange={(e) => (
+									setForm((form) => ({
 										...form,
-										street : e.target.value
+										dateOfBirth : e.target.value
 									}))
 								)}
 							/>
 
-							<label htmlFor="city">City</label>
+							<label htmlFor="start-date">Start Date</label>
 							<input 
-								id="city" 
-								type="text" 
+								id="start-date"
+								type="date"
 								onChange={e => (
 									setForm(form => ({
 										...form,
-										city : e.target.value
+										startDate : e.target.value
 									}))
 								)}
 							/>
 
-							<label htmlFor="state">State</label>
+							<br />
+							<br />
+
+							<fieldset className="address">
+								<legend>Address</legend>
+
+								<label htmlFor="street">Street</label>
+								<input 
+									id="street" 
+									type="text"
+									onChange={e => (
+										setForm(form => ({
+											...form,
+											street : e.target.value
+										}))
+									)}
+								/>
+
+								<label htmlFor="city">City</label>
+								<input 
+									id="city" 
+									type="text" 
+									onChange={e => (
+										setForm(form => ({
+											...form,
+											city : e.target.value
+										}))
+									)}
+								/>
+
+								<label htmlFor="state">State</label>
+								<select 
+									name="state" 
+									id="state"
+									onChange={(e) => (
+										setForm(form =>({
+											...form,
+											state : e.target.value
+										}))
+									)}
+								>
+									{states.map((state, index) =>( 
+										<option value={state.name} key={index}>{state.name}</option>
+
+									))}
+								</select>
+
+								<label htmlFor="zip-code">Zip Code</label>
+								<input 
+									id="zip-code" 
+									type="number" 
+									onChange={(e) => (
+										setForm(form => ({
+											...form,
+											zipCode : e.target.value
+										}))
+									)}
+								/>
+							</fieldset>
+
+							<label htmlFor="departement">Departement</label>
 							<select 
-								name="state" 
-								id="state"
-								onChange={(e) => (
-									setForm(form =>({
-										...form,
-										state : e.target.value
-									}))
-								)}
-							>
-								{states.map((state, index) =>( 
-									<option value={state.name} key={index}>{state.name}</option>
-
-								))}
-							</select>
-
-							<label htmlFor="zip-code">Zip Code</label>
-							<input 
-								id="zip-code" 
-								type="number" 
+								name="departement" 
+								id="departement" 
+								value={form.departements}
 								onChange={(e) => (
 									setForm(form => ({
-										...form,
-										zipCode : e.target.value
-									}))
-								)}
-							/>
-						</fieldset>
+											...form,
+											departement : e.target.value
+										}))
+									)}
+							>
+							{departements.map((department, index) =>(
+								<option key={index} value={department.name}>{department.name}</option>
+							))}
+							</select>
+						</form>
 
-						<label htmlFor="departement">Departement</label>
-						<select 
-							name="departement" 
-							id="departement" 
-							value={form.departements}
-							onChange={(e) => (
-								setForm(form => ({
-										...form,
-										departement : e.target.value
-									}))
-								)}
-						>
-						{departements.map((department, index) =>(
-							<option key={index} value={department.name}>{department.name}</option>
-						))}
-						</select>
-					</form>
+					<button 
+						type="button"
+						onClick={(e) => (
+							saveEmployee()
+						)}
+					>
+						Save me
+					</button>
+				</div>
 
-				<button 
-					type="button"
-					onClick={(e) => (
-						saveEmployee()
-					)}
-				>
-					Save me
-				</button>
 			</div>
-
-			{modale && <div id="confirmation" className="modal">Employee Created!</div>} 
-			
-		</div>
+			<Modal isOpen={modale} onStateChange={handleModalChange} />			
+		</>
   )
 }
