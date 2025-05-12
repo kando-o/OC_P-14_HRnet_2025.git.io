@@ -19,7 +19,7 @@ export default function Modal({isOpen, onStateChange}) {
 		if (typeof onStateChange === "function") {
 			onStateChange(open)			
 		}
-	},[open])
+	},[open, onStateChange])
 
 	if(!open) return null
 

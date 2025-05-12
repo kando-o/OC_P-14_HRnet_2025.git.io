@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import "../assets/styles/home.css"
 import { NavLink } from 'react-router'
-import Modal from '../../../Component/modal/view/modal'
+import Header from '../../../Component/Header'
+import Modal from '@kyssii_gtml/modal-lib-p14';
 
+
+// Lazy Load the Modal component
+// const LazyModal = React.lazy(() => import('@kyssii_gtml/modal-lib-p14'))
 export default function Home() {
 		const states = [ 
 	{
@@ -252,12 +256,8 @@ export default function Home() {
 	]
 	
 	const [form, setForm] = useState( () => {		
-		const employees = localStorage.getItem('employees');
-		// au montage du composant si saveForm existe le parse sinon mettre une valeur vide
-		return employees ? 
-		JSON.parse(employees) 
-		:
-		{
+		// au montage du composant mettre le form à null
+		return {
 			firstName: null,
 			lastName: null,
 			startDate: null,
@@ -270,46 +270,49 @@ export default function Home() {
 		}
 	})
 	
-	const saveEmployee = () => {		
-		setmodale(true);
+	const saveEmployee = (e) => {		
+		e.preventDefault()
 		const employees = JSON.parse(localStorage.getItem("employees"))
+
 		if (!employees) {
 			localStorage.setItem("employees", JSON.stringify([form]))
 		} else {
-			// Si la valeur du champ et égale à ce qui existe déjà alors Création de newEmploye avec ...employees et la nouvelle valeur du form rajouter au localStorag
-			const newEmploye = [...employees, {...form}] 
+			// Création de newEmploye avec ...employees et la nouvelle valeur du form rajouter au localStorag
+			const newEmploye = [...employees, form] 
 			localStorage.setItem("employees", JSON.stringify(newEmploye))
 		}
+		setmodale(true);
 	}
-
-	// à chaque changement dans le composant mettre à jour le LS
-	useEffect(() => {
-	}, [form]);
 
 	const [modale, setmodale] = useState(false)
 
 	const handleModalChange = (value) => {
 		//value qui vient de la modal *composant enfant*
 		setmodale(value)
-		console.log("état de la modale depuis la home", value);
+		console.log("état de la modale depuis la home", value)
+		console.log(" click openmodal ");
+		;
+		console.log("modal:", Modal);
 	}
+
+	
 
   return (
 		<>
 			<div className='home'>
-				<div className="title">
-					<h1>HRnet 2</h1>
-				</div>
+				<Header />
 
 				<div className="container">
 					<NavLink to="/employees">View Current Employees</NavLink>
 						<h2>Create Employee</h2>
-						<form action="#" id="create-employee">
+						{/* Activation du required grace au buton type submit et à la fonction *Onsubmit* */}
+						<form onSubmit={saveEmployee} action="#" id="create-employee">
 							<label htmlFor="first-name">First Name</label>
 							<input
 								type="text"
 								id="first-name"
 								required
+								pattern="[a-zA-Z]+"
 								onChange={(e) =>
 									(
 										setForm((form) => ({
@@ -433,20 +436,22 @@ export default function Home() {
 								<option key={index} value={department.name}>{department.name}</option>
 							))}
 							</select>
-						</form>
 
-					<button 
-						type="button"
-						onClick={(e) => (
-							saveEmployee()
-						)}
-					>
-						Save me
-					</button>
+							<button 
+								type="submit"
+							>
+								Save me
+							</button>
+					</form>
+
 				</div>
 
 			</div>
-			<Modal isOpen={modale} onStateChange={handleModalChange} />			
+			{/* <Suspense fallback={<div> Chargement de la modale...</div>}>
+			</Suspense> */}
+				<Modal isOpen={modale} onStateChange={handleModalChange} />			
 		</>
   )
 }
+
+// Arman le lazyLoad et en commentaire pour l'instant je voulais lancer la modale sans pour voir pck j'avais un conflit avec le lazyLoad

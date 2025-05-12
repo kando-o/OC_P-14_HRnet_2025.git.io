@@ -20,9 +20,12 @@
 .modal-text {
   position: relative;
   padding: 1rem;
+  color: #000;
+  line-height: 32px;
 }
 .modal a {
   padding: 1rem;
+  text-decoration: none;
 }
 .modal-btnClose {
   color: whitesmoke;

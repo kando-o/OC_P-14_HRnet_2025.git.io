@@ -4,12 +4,16 @@
 	justify-content: center;
 }
 
-
 .container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
+	
+	a {
+		margin-bottom: 1rem;
+		text-decoration: none;
+	}
 }
 
 label {
@@ -23,7 +27,7 @@ label {
 }
 
 .css-pdct74-MuiTablePagination-selectLabel, .css-levciy-MuiTablePagination-displayedRows {
- margin: 0;
+	margin: 0;
 }
 
 .css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input.css-1rxz5jq-MuiSelect-select-MuiInputBase-input-MuiInput-input {
