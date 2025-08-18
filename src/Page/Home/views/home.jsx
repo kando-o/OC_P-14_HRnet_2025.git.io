@@ -2,11 +2,12 @@ import React, { Suspense, useState } from 'react'
 import "../assets/styles/home.css"
 import { NavLink } from 'react-router'
 import Header from '../../../Component/Header'
-import Modal from '@kyssii_gtml/modal-lib-p14';
-
+import { Modal } from '@kyssii_gtml/modal-lib-p14'
+import '@kyssii_gtml/modal-lib-p14/dist/modal-lib-p14.css';
 
 // Lazy Load the Modal component
 // const LazyModal = React.lazy(() => import('@kyssii_gtml/modal-lib-p14'))
+
 export default function Home() {
 		const states = [ 
 	{
@@ -277,7 +278,7 @@ export default function Home() {
 		if (!employees) {
 			localStorage.setItem("employees", JSON.stringify([form]))
 		} else {
-			// Création de newEmploye avec ...employees et la nouvelle valeur du form rajouter au localStorag
+			// Création de newEmploye avec ...employees et la nouvelle valeur du form rajouter au localStorage
 			const newEmploye = [...employees, form] 
 			localStorage.setItem("employees", JSON.stringify(newEmploye))
 		}
@@ -290,12 +291,10 @@ export default function Home() {
 		//value qui vient de la modal *composant enfant*
 		setmodale(value)
 		console.log("état de la modale depuis la home", value)
-		console.log(" click openmodal ");
-		;
-		console.log("modal:", Modal);
+		
+		// console.log("modal function Lazy:", LazyModal);
+		console.log("modal statu:", modale);
 	}
-
-	
 
   return (
 		<>
@@ -305,14 +304,14 @@ export default function Home() {
 				<div className="container">
 					<NavLink to="/employees">View Current Employees</NavLink>
 						<h2>Create Employee</h2>
-						{/* Activation du required grace au buton type submit et à la fonction *Onsubmit* */}
+						{/* Activation du required grace au Form + button type submit et à la function *Onsubmit* */}
 						<form onSubmit={saveEmployee} action="#" id="create-employee">
 							<label htmlFor="first-name">First Name</label>
 							<input
 								type="text"
 								id="first-name"
 								required
-								pattern="[a-zA-Z]+"
+								pattern="[a-zA-ZÀ-ÿ\s'-]+"
 								onChange={(e) =>
 									(
 										setForm((form) => ({
@@ -327,6 +326,8 @@ export default function Home() {
 							<input 
 								type="text" 
 								id="last-name" 
+								required
+								pattern="[a-zA-ZÀ-ÿ\s'-]+"
 								onChange={(e) => (
 									setForm((form) => ({
 										...form,
@@ -340,6 +341,7 @@ export default function Home() {
 							<input 
 								id="date-of-birth" 
 								type="date" 
+								required
 								onChange={(e) => (
 									setForm((form) => ({
 										...form,
@@ -352,6 +354,7 @@ export default function Home() {
 							<input 
 								id="start-date"
 								type="date"
+								required
 								onChange={e => (
 									setForm(form => ({
 										...form,
@@ -370,6 +373,8 @@ export default function Home() {
 								<input 
 									id="street" 
 									type="text"
+									required
+									pattern="[a-zA-ZÀ-ÿ\s'-]+"
 									onChange={e => (
 										setForm(form => ({
 											...form,
@@ -382,6 +387,8 @@ export default function Home() {
 								<input 
 									id="city" 
 									type="text" 
+									required
+									pattern="[a-zA-ZÀ-ÿ\s'-]+"
 									onChange={e => (
 										setForm(form => ({
 											...form,
@@ -394,6 +401,7 @@ export default function Home() {
 								<select 
 									name="state" 
 									id="state"
+									required
 									onChange={(e) => (
 										setForm(form =>({
 											...form,
@@ -411,6 +419,8 @@ export default function Home() {
 								<input 
 									id="zip-code" 
 									type="number" 
+									required
+									pattern="[0-9]+"
 									onChange={(e) => (
 										setForm(form => ({
 											...form,
@@ -424,7 +434,8 @@ export default function Home() {
 							<select 
 								name="departement" 
 								id="departement" 
-								value={form.departements}
+								required
+								value={form.departement ?? ""}
 								onChange={(e) => (
 									setForm(form => ({
 											...form,
@@ -432,13 +443,15 @@ export default function Home() {
 										}))
 									)}
 							>
-							{departements.map((department, index) =>(
-								<option key={index} value={department.name}>{department.name}</option>
-							))}
+								{departements.map((department, index) =>(
+									<option key={department.name} value={department.name}>{department.name}</option>
+								))}
 							</select>
 
 							<button 
 								type="submit"
+								id="submit-btn"
+  							aria-label="save me"
 							>
 								Save me
 							</button>
@@ -447,11 +460,9 @@ export default function Home() {
 				</div>
 
 			</div>
+			<Modal isOpen={modale} onStateChange={handleModalChange} />			
 			{/* <Suspense fallback={<div> Chargement de la modale...</div>}>
 			</Suspense> */}
-				<Modal isOpen={modale} onStateChange={handleModalChange} />			
 		</>
   )
 }
-
-// Arman le lazyLoad et en commentaire pour l'instant je voulais lancer la modale sans pour voir pck j'avais un conflit avec le lazyLoad

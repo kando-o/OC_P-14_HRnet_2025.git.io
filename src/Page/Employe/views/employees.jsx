@@ -36,7 +36,8 @@ export default function Employees() {
 		return tabemployee
 	})
 
-	const options = {
+	const options = { 
+		/** @type {string} */
 		selectableRows: "none",
 		download: false, // 🔴 désactive le bouton "Download"
 		print: false, // 🔴 désactive le bouton "Print"
@@ -66,7 +67,7 @@ export default function Employees() {
 				titleAria: "Show/Hide Table Columns",
 			},
 		},
-		customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage, textLabels) => {
+		customFooter: (count, page, rowsPerPage, changeRowsPerPage, changePage) => {
 			const from = page * rowsPerPage + 1;
 			const to = Math.min(count, (page + 1) * rowsPerPage);
 			return (

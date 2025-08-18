@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router'
 const Layout = lazy(() => import('../Page/Layout/views/layout'))
 const Home = lazy(() => import('../Page/Home/views/home'))
 const Employees = lazy(() => import('../Page/Employe/views/employees'))
+const NotFound = lazy(() => import('../Page/404/views/404'))
 
 export default function Router() {
 	return (
@@ -14,7 +15,7 @@ export default function Router() {
 					<Route path='/' element={<Layout />} />
 						<Route index element={<Home />} />
 						<Route path='/employees' element={<Employees />} />
-						{/* <Route path='*' element={<NotFound/>} /> //Qui me renvoit vers la home en cas de page hors Routeur */}
+						<Route path='*' element={<NotFound/>} />
 					<Route />
 				</Routes>
 			</Suspense>
