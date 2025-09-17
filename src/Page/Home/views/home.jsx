@@ -2,11 +2,8 @@ import React, { Suspense, useState } from 'react'
 import "../assets/styles/home.css"
 import { NavLink } from 'react-router'
 import Header from '../../../Component/Header'
-import { Modal } from '@kyssii_gtml/modal-lib-p14'
-import '@kyssii_gtml/modal-lib-p14/dist/modal-lib-p14.css';
-
-// Lazy Load the Modal component
-// const LazyModal = React.lazy(() => import('@kyssii_gtml/modal-lib-p14'))
+import { useModal, Modal } from '@kyssiii_gtml/modal-lib-p14'
+import '@kyssiii_gtml/modal-lib-p14/dist/modal-lib-p14.css'
 
 export default function Home() {
 		const states = [ 
@@ -271,36 +268,21 @@ export default function Home() {
 		}
 	})
 	
-	const saveEmployee = (e) => {		
+	const {openModal} = useModal()
+
+  const saveEmployee = (e) => {		
 		e.preventDefault()
-		const employees = JSON.parse(localStorage.getItem("employees"))
-
-		if (!employees) {
-			localStorage.setItem("employees", JSON.stringify([form]))
-		} else {
+		const employees = JSON.parse(localStorage.getItem("employees")) || []
+			employees.push(form)
 			// Création de newEmploye avec ...employees et la nouvelle valeur du form rajouter au localStorage
-			const newEmploye = [...employees, form] 
-			localStorage.setItem("employees", JSON.stringify(newEmploye))
-		}
-		setmodale(true);
-	}
-
-	const [modale, setmodale] = useState(false)
-
-	const handleModalChange = (value) => {
-		//value qui vient de la modal *composant enfant*
-		setmodale(value)
-		console.log("état de la modale depuis la home", value)
-		
-		// console.log("modal function Lazy:", LazyModal);
-		console.log("modal statu:", modale);
+			localStorage.setItem("employees", JSON.stringify(employees))
+		openModal("employeeCreated");
 	}
 
   return (
 		<>
 			<div className='home'>
 				<Header />
-
 				<div className="container">
 					<NavLink to="/employees">View Current Employees</NavLink>
 						<h2>Create Employee</h2>
@@ -460,9 +442,15 @@ export default function Home() {
 				</div>
 
 			</div>
-			<Modal isOpen={modale} onStateChange={handleModalChange} />			
-			{/* <Suspense fallback={<div> Chargement de la modale...</div>}>
-			</Suspense> */}
+			<Modal
+				modalId="employeeCreated"
+				title="Employees"
+				enableBackdropClose={true}
+				enableCloseButton={true}
+			>
+				<p>Employee Created!</p>
+				<NavLink to="/employees">View Current Employ</NavLink>
+			</Modal>
 		</>
   )
 }

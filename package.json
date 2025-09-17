@@ -10,14 +10,14 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest",
-    "test:ui": "vitest --ui", 
+    "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage",
     "test:coverageC8": "c8 vitest --coverage"
   },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@emotion/styled": "^11.14.0",
-    "@kyssii_gtml/modal-lib-p14": "^1.0.25",
+    "@kyssiii_gtml/modal-lib-p14": "^1.0.4",
     "@mui/material": "^5.16.14",
     "@reduxjs/toolkit": "^2.5.1",
     "mui-datatables": "^4.3.0",

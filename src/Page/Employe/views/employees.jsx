@@ -2,6 +2,7 @@ import React from 'react'
 import { NavLink } from 'react-router'
 import MUIDataTable from "mui-datatables";
 import '../assets/styles/employes.css'
+import Header from '../../../Component/Header';
 
 export default function Employees() {
 
@@ -107,14 +108,16 @@ export default function Employees() {
 	}
 
 	return (
-
-		<div id="employee-div" className="employe">
-			<MUIDataTable title="Current Employees" 
-				data={tabeEmployees} 
-				columns={columns} 
-				options = {options}
-			/>
-			<NavLink to="/" >Home</NavLink>
-		</div>
+		<>
+			<Header />
+			<div id="employee-div" className="employe">
+				<MUIDataTable title="Current Employees" 
+					data={tabeEmployees} 
+					columns={columns} 
+					options = {options}
+				/>
+				<NavLink to="/" >Home</NavLink>
+			</div>
+		</>
 	)
 }
