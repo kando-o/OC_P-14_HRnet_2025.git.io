@@ -1,11 +1,12 @@
 import React from 'react'
+import { Suspense, lazy } from 'react'
 import { NavLink } from 'react-router'
-import MUIDataTable from "mui-datatables";
+// import MUIDataTable from "mui-datatables";
 import '../assets/styles/employes.css'
 import Header from '../../../Component/Header';
 
 export default function Employees() {
-
+	const MUIDataTable = lazy(() => import('mui-datatables'))
 	const employees = localStorage.getItem('employees')
 	const parseEmployees = employees ? JSON.parse(employees) : []
 	const columns = [
@@ -111,11 +112,13 @@ export default function Employees() {
 		<>
 			<Header />
 			<div id="employee-div" className="employe">
-				<MUIDataTable title="Current Employees" 
-					data={tabeEmployees} 
-					columns={columns} 
-					options = {options}
-				/>
+				<Suspense>
+					<MUIDataTable title="Current Employees" 
+						data={tabeEmployees} 
+						columns={columns} 
+						options = {options}
+					/>
+				</Suspense>
 				<NavLink to="/" >Home</NavLink>
 			</div>
 		</>
