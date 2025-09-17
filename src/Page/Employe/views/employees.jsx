@@ -1,7 +1,6 @@
 import React from 'react'
 import { Suspense, lazy } from 'react'
 import { NavLink } from 'react-router'
-// import MUIDataTable from "mui-datatables";
 import '../assets/styles/employes.css'
 import Header from '../../../Component/Header';
 

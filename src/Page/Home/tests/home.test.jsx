@@ -2,13 +2,16 @@ import React from 'react'
 import { render, screen, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { BrowserRouter } from 'react-router-dom'
+import { ModalProvider } from '@kyssiii_gtml/modal-lib-p14'
 import Home from '../views/home'
 
-// Wrapper pour Router (nécessaire car mon composant utilise NavLink)
+// Wrapper pour Router (nécessaire car mon composant utilise NavLink et ModalProvider)
 const renderWithRouter = (component) => {
   return render(
     <BrowserRouter>
-      {component}
+      <ModalProvider>
+        {component}
+      </ModalProvider>
     </BrowserRouter>
   )
 }
@@ -40,11 +43,11 @@ describe('Home Component', () => {
 	test('form validation prevents submission with empty fields', () => {
 		renderWithRouter(<Home />)
 		
-		// Trouver le bouton submit (ajoute un id="submit-btn" à ton bouton)
-		const submitButton = screen.getByText('Save me')
+		// Trouver le formulaire par son ID
+		const form = document.getElementById('create-employee')
 		
 		// Essayer de soumettre sans remplir
-		fireEvent.click(submitButton)
+		fireEvent.submit(form)
 		
 		// Le formulaire ne devrait pas être soumis (HTML5 validation)
 		// Vérifier que les champs required sont toujours visibles
@@ -72,9 +75,9 @@ describe('Home Component', () => {
 		fireEvent.change(departmentSelect, { target: { value: 'Engineering' } })
 
 		
-		// Soumettre le formulaire avec le bon nom
-		const submitButton = screen.getByText('Save me')
-		fireEvent.submit(submitButton)
+		// Soumettre le formulaire en trouvant le formulaire par son ID
+		const form = document.getElementById('create-employee')
+		fireEvent.submit(form)
 
 		// Attendre un peu pour laisser le temps au localStorage de se mettre à jour
 		await new Promise(resolve => setTimeout(resolve, 100))
@@ -121,11 +124,11 @@ describe('Home Component', () => {
 		const departmentSelect = screen.getByLabelText(/Departement/i)
 		fireEvent.change(departmentSelect, { target: { value: 'Engineering' } })
 
-		const submitButton = screen.getByText('Save me')
-		fireEvent.submit(submitButton)
+		const form = document.getElementById('create-employee')
+		fireEvent.submit(form)
 
 		// Attendre un peu pour laisser le temps au localStorage de se mettre à jour
-		new Promise(resolve => setTimeout(resolve, 100))
+		await new Promise(resolve => setTimeout(resolve, 100))
 
 		// Vérifier le localStorage
 		const localStorageContent = localStorage.getItem('employees')

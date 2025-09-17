@@ -3,6 +3,7 @@ import NotFound from '../views/404'
 import Home from '../../Home/views/home'
 import Employees from '../../Employe/views/employees'
 import { createMemoryRouter, RouterProvider } from 'react-router-dom'
+import { ModalProvider } from '@kyssiii_gtml/modal-lib-p14'
 
 
 // Configuration des routes pour les tests
@@ -10,7 +11,11 @@ const createTestRouter = (initialEntries = ['/']) => {
   const routes = [
     {
       path: '/',
-      element: <Home />
+      element: (
+        <ModalProvider>
+          <Home />
+        </ModalProvider>
+      )
     },
     {
       path: '/employees',
@@ -37,7 +42,7 @@ describe('Router', () => {
     render(<RouterProvider router={router} />)
     
     // Vérifier que la page 404 s'affiche
-    expect(screen.getAllByText('Une erreur est survenue. Page non trouvée !')).toHaveLength(1)
+    expect(screen.getByText('Une erreur est survenue. Page non trouvée !')).toBeInTheDocument()
   })
 
 	test.each(['/admin', '/profile', '/settings', '/random-page'])('404 page is accessible from any invalid route', (route) => {
